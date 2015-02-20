@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Web Chat using Tornado</title>
+
+    <script src="webchat.js"></script>
+
+    <script>
+    var chatBox;
+    var webchat;
+
+    function callback_onmessage(message) {
+        chatBox.innerHTML = chatBox.innerHTML + '<br>Message received[ From: ' + message.from + '. Message: ' + message.message + ' ]';
+    }
+
+    function init() {
+        var client_id = new Date().getTime();
+        
+        webchat = new WebChat('localhost:8100', client_id, callback_onmessage);
+
+        chatBox = document.getElementById('chat');
+        document.getElementById('yourId').innerHTML = 'Your id: ' + client_id;
+    }
+
+    window.onload = init;
+    </script>
+</head>
+<body>
+    <div id="yourId"></div>
+    <div>
+        To id: <input type="text" id="to">
+    </div>
+    <div>
+        Message: <input type="text" id="message">
+    </div>
+    <div>
+        <button onclick="webchat.sendMessage({to: document.getElementById('to').value, message: document.getElementById('message').value})">Send</button>
+    </div>
+
+    <div id="chat"></div>
+
+</body>
+</html>
